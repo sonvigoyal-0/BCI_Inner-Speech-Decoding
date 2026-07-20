@@ -9,19 +9,12 @@
 | **Journal** | Frontiers in Neuroscience |
 | **Publisher** | Frontiers Media |
 | **DOI** | *Add DOI if available* |
-| **Research Area** | Brain-Computer Interface (BCI), EEG, Sensorimotor Rhythm (SMR), Motor Imagery |
-| **BCI Paradigm** | Motor Imagery (SMR-based BCI) |
-| **Participants** | 80 healthy BCI-naïve subjects |
-| **EEG Channels** | 119 Ag/AgCl electrodes (10-20 system) |
-| **Sampling Frequency** | 1000 Hz |
-| **Classifier** | Linear Discriminant Analysis (LDA) with Common Spatial Pattern (CSP) |
-| **Review Status** | ✅ Completed |
 
 ---
 
 ## Key Takeaway :-
 
-> The paper demonstrates that the strength of the Sensorimotor Rhythm (SMR) during resting EEG can predict a person's Brain-Computer Interface performance even before training begins. This finding provides a potential solution to the long-standing BCI illiteracy problem.
+The paper demonstrates that the strength of the Sensorimotor Rhythm (SMR) during resting EEG can predict a person's Brain-Computer Interface performance even before training begins. This finding provides a potential solution to the long-standing BCI illiteracy problem.
 
 
 ## Summary
