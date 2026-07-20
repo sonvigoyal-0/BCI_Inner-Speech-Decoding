@@ -1,5 +1,5 @@
 # BCI-KnowledgeBase
-
+**REDUCING LATENCY BUT NOT EFFECTING THE ACCURACY**
 A structured knowledge base focused on the foundational concepts required to understand Brain-Computer Interface (BCI) research.
 
 This repository brings together prerequisite topics, research paper notes, and dataset documentation in a single, organized place. Rather than serving as a collection of isolated notes, it is intended to provide a connected reference that helps bridge the gap between undergraduate engineering concepts and modern BCI literature.

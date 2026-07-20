@@ -6,15 +6,21 @@ Working beofre classification(ML Model)
                                         ⇩
                                      Filtering
                                         ⇩
-                                       ICA (preprocessing)
+                                    ICA (preprocessing)
                                         ⇩
-                                       FFT (feature ext)
+                                    FFT (feature ext)
                                         ⇩                            ( or wavelet )
                                        PSD
                                         ⇩
-                                       CSP
+                                    CSP (feature ext)
                                         ⇩
-                                   Classification
+                                     Epoching
+                                        ⇩
+                                  Baseline correction
+                                        ⇩
+                                   Normalisation
+                                        ⇩
+                                    Classification
 
                             
 
@@ -56,4 +62,15 @@ Keeping useful frequency and removing unwanted freq
 
 ## WINDOWING :-
 - A window is a time interval selected for analysis
-- 
+- Example from 0----10 sec ...... we use 2-> 4 sec for analysis then this is window
+- Or we can slide it from 2sec - 4sec - 6sec - 8sec
+
+## BASELINE CORRECTION :-
+- Everyone's EEG signal will come of out diffrent so before proceeding with task , resting mode EEG signal (BASELINE) is recorded and deleted from overall EEG siganl
+
+## NORMALISATION :-
+- Means comparing the before and after value and come to a common conclusion to make faster training , better accuracy and fair comparison
+
+## SAMPLING FREQUENCY :-
+- Converting a waveform into discrete which tell about how many EEG siganls are recorded per second
+- Higher the sampling freq means better accuracy and in depth work 
