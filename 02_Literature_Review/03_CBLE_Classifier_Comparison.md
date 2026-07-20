@@ -10,8 +10,6 @@
 | **Publisher** | MDPI |
 | **DOI** | `10.3390/brainsci10100734` |
 | **Paper Link** | https://doi.org/10.3390/brainsci10100734 |
-| **Research Area** | Brain-Computer Interface (BCI), EEG Signal Processing, P300 Speller, Latency Estimation |
-| **Review Status** | ✅ Completed |
 
 ## Summary :-
 
