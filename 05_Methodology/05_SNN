@@ -1,0 +1,19 @@
+# Spiking Neural Networks (SNNs) for Event-Driven Decoding
+
+## What is an SNN?
+Spiking Neural Networks (SNNs) are bio-inspired artificial intelligence models designed to function like biological brains. Instead of processing continuous streams of numbers at every single millisecond (like standard AI), SNNs process information using discrete "spikes" over time, computing *only* when an event happens.
+
+## How does it actually work? (The Step-by-Step Pipeline)
+1. **Signal Acquisition & Preprocessing:** Raw EEG signals are collected and cleaned using standard bandpass filters.
+2. **Event-Based Encoding (Thresholding):** Continuous brainwaves are converted into sparse spike trains[cite: 5]. A spike (value of 1) is generated *only* when the EEG signal crosses a predefined positive or negative voltage threshold. Small background fluctuations are ignored, making it naturally noise-robust.
+3. **SNN Processing (Leaky Integrate-and-Fire Neurons):** These spike trains are fed into artificial spiking neurons. Every incoming spike increases the neuron's internal electrical charge (membrane potential). If no spikes arrive, the potential slowly leaks away over time.
+4. **Firing & Propagation:** When a neuron's accumulated potential hits its threshold, it fires an output spike and resets, mimicking real biological brain cells. 
+5. **Classification:** SNNs analyze spatiotemporal patterns—meaning they care precisely *when* the spikes arrive, not just how many occur. Output neurons compete, and the category with the highest spike count during the decision window wins.
+
+## Why is it Useful?
+* **Extreme Energy Efficiency:** Standard AI models consume heavy computing power because they process data at every single time step. SNNs are event-driven, meaning they only compute when spikes occur. This drastically reduces power consumption, which is crucial for wearable, always-on BCI systems.
+* **True Low-Latency:** Decisions can be made as soon as enough spike events are observed, without waiting for fixed-length sliding windows.
+
+## Limitations
+* **Hardware Dependence:** To unlock the real speed and power-saving advantages of an SNN, you must run it on specialized "neuromorphic hardware" (computer chips built to mimic biological brain structures, like the IBM North Pole or True North chips). If simulated on a standard computer or GPU, most of those efficiency gains disappear.
+* **Immature Technology:** SNNs are newer and much harder to train than traditional neural networks, and they generally trail behind standard deep learning models in raw classification accuracy.
