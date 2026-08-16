@@ -1,0 +1,43 @@
+# Methodology Overview: Low-Latency Thought-to-Text BCI
+
+This directory documents the architectural choices, and evaluated methodologies for building a non-invasive, low-latency Brain-Computer Interface (BCI). 
+
+The core challenge of this project was to extract weak imagined-speech signals from noisy EEG data and decode them into text, all while strictly adhering to a sub-200ms latency budget for real-time edge deployment.
+
+## 1. The Final Redesigned Architecture (Production-Grade)
+
+<img src="Final_Pipeline.jpeg" alt="Final BCI Pipeline Architecture" width="600"/>
+
+
+After evaluating multiple standard BCI paradigms, we established a streamlined, deterministic pipeline optimized for edge hardware. By enforcing a "Detection before Decoding" philosophy, we preserve computational resources and eliminate false positives.
+
+The final pipeline operates in the following sequence:
+1. **Adaptive Z-Score EMA:** Front-end preprocessing normalizes the continuous raw EEG stream.
+2. **Phase-Locking CUSUM (iPLV):** Instead of processing all data, the system idles until this trigger detects a distinct thought onset via phase synchronization. 
+3. **TensorRT EEGNet FP16 Extractor:** The captured window is processed by our highly optimized, lightweight CNN feature extractor.
+4. **SILRL Latent Embedding Space:** Features are projected into a Session-Invariant Latent Representation Learning space to nullify daily signal drift.
+5. **Cosine Similarity & Prediction:** The embedding is compared against a Prototype Gallery using cosine similarity to output the final command prediction.
+
+
+## 2. Explored & Rejected Alternatives
+
+<img src="Rejected_Pipeline.png" alt="Rejected BCI Pipeline Architecture" width="400"/>
+
+
+To arrive at the final architecture, we extensively tested a heavier, traditional baseline pipeline. While these methods offer specific advantages, they introduced severe bottlenecks for our edge-deployment goals:
+
+* **Foundation Models (SSL):** Powerful for general EEG understanding, but caused severe thermal throttling and latency spikes.
+* **Riemannian Geometry:** Computationally fast and handles non-stationarity well, but destroys the fine temporal sequences necessary for accurate phoneme decoding.
+* **Spiking Neural Networks (SNNs):** Highly energy-efficient in theory, but requires specialized neuromorphic hardware to realize actual speed gains.
+* **CTC / Transformer Decoding & LM Correction:** While Language Models heavily improve text metrics, they carry a massive risk of "hallucinating" fluent text disconnected from the actual neural signal. 
+
+## 3. Directory Index
+Explore the individual files below for deep technical breakdowns of each methodology:
+
+* `01_SSL.md` - Self-Supervised Learning Foundation Models
+* `02_EEGNet.md` - Compact CNN Feature Extraction *(Selected)*
+* `03_SILRL.md` - Session-Invariant Latent Representation Learning *(Selected)*
+* `04_Riemannian_Geometry.md` - Covariance-based spatial filtering
+* `05_SNN.md` - Event-driven Spiking Neural Networks
+* `06_Adaptive_Windowing.md` - CUSUM Triggers and Phase-Locked Epoching *(Selected)*
+* `07_CTC_and_LM_Correction.md` - Text alignment and language model post-processing
