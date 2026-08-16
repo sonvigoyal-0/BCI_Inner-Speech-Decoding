@@ -2,7 +2,7 @@
 
 ## Main Aim
 
-Develop an asynchronous Brain-Computer Interface (BCI) capable of detecting when a person begins imagining speech within a continuous EEG stream, without relying on predefined time windows. This serves as a "brain switch," enabling more practical real-time BCI communication.
+Develop an asynchronous Brain-Computer Interface (BCI) capable of detecting when a person begins imagining speech within a continuous EEG stream, without relying on predefined time windows. This serves as a "brain switch," enabling more practical real-time BCI communication (reducing latency).
 
 ## Core Concepts & Technologies Used
 
@@ -50,4 +50,4 @@ This approach represents an important step toward practical, real-time BCI by en
 ## Key Takeaway
 This paper addresses one of the biggest challenges in practical Brain-Computer Interfaces: detecting the start of imagined speech without predefined timing information. By combining behaviorally aligned EEG labeling with a Multi-Receptive Field CNN, the authors introduce a reliable brain-switch mechanism that moves imagined speech BCIs closer to real-world, real-time communication systems 
 
-Hence paper solves problems like cross session variablity , latency.
+Hence paper solves problems like cross session variablity , latency. And the objective of the paper has been obtained.
