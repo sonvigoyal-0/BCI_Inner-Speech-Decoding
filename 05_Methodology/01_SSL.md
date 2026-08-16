@@ -1,190 +1,41 @@
-# Methodology 1: Self-Supervised Learning (SSL)
-
----
-
-# Overview
-
-Self-Supervised Learning (SSL) is a machine learning approach that enables a model to learn meaningful EEG representations without requiring manually labeled data.
-
-In contrast to traditional supervised learning, where every EEG sample must be associated with a class label, SSL first trains the model using large collections of unlabeled EEG recordings. During this stage, the model learns the underlying structure and patterns of brain signals by solving automatically generated learning tasks, known as *pretext tasks*.
-
-Once the model has learned these general EEG representations, it is fine-tuned using a relatively small labeled dataset for a downstream application such as imagined speech decoding.
-
----
-
-# Why Was This Methodology Proposed?
-
-One of the biggest challenges in EEG research is the shortage of labeled data.
-
-Collecting imagined speech EEG recordings is expensive, time-consuming, and requires carefully designed experiments. Every new participant or recording session often needs fresh labeling, making dataset creation difficult.
-
-Researchers introduced SSL to overcome this limitation by utilizing the large amount of unlabeled EEG data that is already available.
-
-Instead of learning directly from labels, SSL learns the intrinsic characteristics of EEG signals first and later transfers this knowledge to specific BCI tasks.
-
----
-
-# How Does SSL Work?
-
-SSL follows a two-stage learning process.
-
-**Stage 1 – Self-Supervised Pretraining** :-
-
-A large collection of unlabeled EEG recordings is provided to the model.
-
-Instead of predicting imagined speech classes, the model solves automatically generated learning tasks, such as:
-
-- Predicting masked portions of EEG signals.
-- Distinguishing different augmented versions of the same EEG recording.
-- Learning relationships between different EEG segments.
-
-This stage helps the model understand common spatial and temporal EEG patterns.
-
-
-
-**Stage 2 – Fine-Tuning** :-
-
-After pretraining, the learned model is adapted to the target task using a smaller labeled imagined speech dataset.
-
-Instead of learning from scratch, the classifier starts with already learned EEG representations, resulting in faster convergence and better feature extraction.
-
----
-
-# SSL Pipeline
-
-```text
-Large Unlabeled EEG Dataset
-            │
-            ▼
-Self-Supervised Pretraining
-            │
-            ▼
-General EEG Feature Representation
-            │
-            ▼
-Fine-Tuning using Imagined Speech Dataset
-            │
-            ▼
-Imagined Speech Classifier
-            │
-            ▼
-Prediction
-```
-
----
-
-# Why Are Researchers Interested in SSL?
-
-SSL has gained significant attention because it addresses one of the biggest limitations of EEG research: the lack of labeled data.
-
-Researchers are increasingly exploring SSL because it:
-
-- Makes effective use of unlabeled EEG recordings.
-- Learns robust feature representations.
-- Reduces dependence on manual labeling.
-- Reduces handcrafted feature engineering.
-- Supports transfer learning across multiple EEG applications.
-
----
-
-# Advantages
-
-1. Efficient Use of Unlabeled Data - Large public EEG repositories can be utilized without requiring manual annotation.
-
-
-2. Better Feature Learning - The model learns meaningful EEG representations before the actual classification task, often leading to improved downstream performance.
-
-
-3. Reduced Labeling Cost - Only a small amount of labeled imagined speech data is required during fine-tuning.
-
-
-4. Better Generalization - Learning general EEG characteristics may improve robustness across different subjects and recording conditions compared to purely supervised learning.
-
----
-
-# Practical Limitations
-
-1. Limited Validation for Imagined Speech - Most SSL frameworks have been evaluated on motor imagery, sleep-stage analysis, or emotion recognition datasets.
-
-Their effectiveness for imagined speech decoding has not yet been extensively validated.
-
-
-2. Task-Specific Transferability - The features learned from one EEG task may not always transfer effectively to another.
-
-Neural activity associated with imagined speech differs considerably from motor imagery or emotion-related brain activity.
-
-
-3. Large Pretraining Requirement - SSL performs best when trained on large and diverse EEG datasets.
-
-High-quality unlabeled imagined speech recordings are still limited.
-
-
-4. Expensive
-
----
-
-# How Can We Integrate SSL into Our Project?
-
-Instead of training the imagined speech classifier directly on labeled data, SSL can be introduced as a representation learning stage.
-
-The workflow would become:
-
-```text
-Raw EEG
-    │
-    ▼
-Preprocessing
-(Bandpass Filter + Artifact Removal)
-    │
-    ▼
-SSL Pretrained Encoder
-    │
-    ▼
-Fine-Tuning using Imagined Speech Dataset
-    │
-    ▼
-EEGNet / Conformer
-    │
-    ▼
-Word Prediction
-```
-
-The pretrained encoder provides richer EEG representations to the classifier, reducing dependence on large labeled datasets.
-
----
-
-# Is SSL Suitable for Our Project?
-
-SSL partially addresses one of our identified research problems by reducing the need for labeled imagined speech data.
-
-However, our primary challenges involve:
-
-- Cross-session variability
-- Cross-dataset variability
-- Low-latency deployment
-- Minimal calibration
-
-SSL does not directly solve these challenges. It improves feature learning but does not guarantee session-invariant representations.
-
-Therefore, SSL is better considered as a **supporting methodology** rather than the primary solution for our project.
-
----
-
-# Final Summary
-
-- Learns EEG representations without labeled data.
-- Reduces labeling effort.
-- Improves feature learning.
-- Suitable as a pretraining strategy.
-- Limited validation for imagined speech.
-- Does not directly address session or dataset variability.
-
----
-
-# Reference
-
-**Paper**
-
-*Self-Supervised Learning Meets EEG Foundation Models: A New Paradigm for EEG Representation Learning.*
-
-ACM Digital Library.
+# Notes: Self-supervised Learning for Electroencephalogram (A Systematic Survey)
+(Paper was read to understand this methodology)
+
+## 1. Paper Overview
+*   **The Core Problem:** Deep learning models for EEG analysis are severely constrained by the scarcity of labeled samples and the significant variability of EEG signals across different subjects.
+*   **The SSL Solution:** Self-Supervised Learning (SSL) extracts effective representations from unlabeled EEG data by utilizing well-designed pretext tasks to generate pseudo-labels. 
+*   **Significance:** SSL reduces the reliance on costly, expert-annotated data while improving model generalization across various downstream tasks.
+
+## 2. Taxonomy of SSL Methods for EEG
+The authors categorize EEG-based SSL frameworks into four primary groups :-
+
+### A. Predictive-based SSL
+These methods create classification pretext tasks to predict discrete pseudo-labels. 
+*   **Spatial Predictive:** Extracts channel correlation and brain structure features using tasks like EEG channel jigsaw, channel correlation prediction, and replace discriminative tasks.
+*   **Temporal Predictive:** Captures sequential dependencies and temporal correlations via tasks like relative positioning, temporal shuffling, time-shift prediction, and temporal trend prediction.
+*   **Transformation Predictive:** Enhances temporal-frequency aligned features by having the model recognize specific augmentations (e.g., stopped band prediction, scaling, flipping, and adding noise) applied to the EEG signal.
+
+### B. Generative-based SSL
+These approaches rely on reconstructing masked or transformed samples to learn fine-grained contextual correlations.
+*   **Temporal Reconstruction:** Uses an encoder-decoder architecture (like Masked Autoencoders or MAE) to reconstruct original or masked temporal EEG signals and embeddings, effectively preserving critical sequential information.
+*   **Multi-domain Reconstruction:** Extends reconstruction across temporal, spatial, and frequency domains simultaneously (e.g., extracting integrated features through Continuous Wavelet Transform and reconstructing the 3D matrix) to generate more general representations.
+
+### C. Contrastive-based SSL
+This is the most widely used technique, focusing on pulling positive pairs (similar samples) closer in the representation space while pushing negative pairs (dissimilar samples) apart.
+*   **Contrastive Predictive Coding (CPC):** Uses contextual windows to accurately predict future representations, extracting invariant temporal features.
+*   **Transformation Contrastive:** Applies augmentations (like cropping, scaling, or time shifting) to generate positive/negative pairs, forcing the model to learn invariant signal features.
+*   **Spatial Contrastive:** Utilizes channel-level spatial augmentations (e.g., spatial shuffling or graph-based node dropping) to understand the spatial distribution of EEG channels across the brain.
+*   **Composite Contrastive:** Performs cross-view and cross-domain contrastive learning (e.g., contrasting time and frequency domain representations) to extract more expressive, complex signal knowledge.
+*   **Task-oriented Contrastive:** Creates highly specific frameworks, such as contrasting EEG signals with visual images or speech, to solve specialized decoding tasks.
+
+### D. Hybrid SSL
+*   Combines multiple pretext tasks (e.g., integrating predictive and contrastive tasks) to jointly train the model using multi-task loss functions.
+*   This allows the shared encoder to extract richer representations containing multi-dimensional knowledge, though it requires careful task selection to avoid gradient interference.
+
+## 3. Future Research Directions
+The authors outline several potential directions for the future of SSL in EEG analysis :
+*   **Signal-oriented Pretext Tasks:** Moving beyond standard image/text adaptations to design pretext tasks tailored specifically to EEG's unique spatial-temporal-frequency characteristics.
+*   **Knowledge-driven SSL:** Integrating formal neural and clinical knowledge into the SSL framework to improve the interpretability and generalizability of the learned representations.
+*   **Graph-based SSL:** Utilizing Graph Neural Networks (GNNs) to better model the inherent topological connectivity among brain regions and electrodes.
+*   **SSL for Heterogeneous EEG:** Developing frameworks capable of jointly pre-training on highly varied datasets (different devices, sampling rates, and subjects) to build universal foundational models.
+*   **Multi-modal SSL:** Combining unlabeled EEG data with other physiological signals (like ECG or EMG) to tackle highly complex downstream tasks.
