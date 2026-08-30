@@ -8,7 +8,7 @@ from torch.utils.data import Dataset, DataLoader
 
 # --- NEW: Add parent folder to path so we can import preprocess.py ---
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from Preprocess import apply_bandpass_filter
+from Preprocess import preprocess_pipeline
 
 class EEGISDataset(Dataset):
     """
@@ -53,11 +53,10 @@ class EEGISDataset(Dataset):
         if data.shape[0] == 128 and data.shape[1] == 14:
             data = data.T 
             
-        # --- NEW: Apply the Day 3 Bandpass Filter ---
-        # data is currently shape (14, 128)
-        data = apply_bandpass_filter(data)
+         # Apply the full Bandpass + Z-Score pipeline
+            data = preprocess_pipeline(data)
         # --------------------------------------------
-            
+       
         tensor_data = torch.from_numpy(data) 
         tensor_label = torch.tensor(label, dtype=torch.long) 
         
