@@ -43,7 +43,7 @@ def get_stratified_dataloaders(dataset_dir, batch_size=32):
 
 if __name__ == "__main__":
     print("=" * 60)
-    print(" DAY 4: LEAKAGE-FREE DATA SPLITTING")
+    print(" LEAKAGE-FREE DATA SPLITTING")
     print("=" * 60)
     
 

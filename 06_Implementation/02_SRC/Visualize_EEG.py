@@ -70,7 +70,7 @@ def run_day2_visualization():
     plt.show() # This pauses the script and opens the second window
 
     print("=" * 60)
-    print("✅ DAY 2 VISUALIZATION COMPLETE.")
+    print("VISUALIZATION COMPLETE")
     print("=" * 60)
 
 if __name__ == "__main__":
